@@ -25,11 +25,6 @@ FLAMEGRAPH_DIR=$(dirname "$0")/FlameGraph
 PID=$(pgrep -x $1)
 echo "Attaching to PID $PID"
 
-BUILD_ID=$(readelf -n $1 | grep "Build ID" | awk '{print $3}')
-mkdir -p ~/.debug/.build-id/${BUILD_ID:0:2}
-cp $1.debug ~/.debug/.build-id/${BUILD_ID:0:2}/${BUILD_ID:2}.debug
-echo "Build ID: $BUILD_ID (cache updated)"
-
 echo "Recording for $DURATION seconds..."
 timeout --signal=SIGINT $DURATION perf record -F 99 --call-graph dwarf,65528 --mmap-pages=512 $CPU_CLOCK -p "$PID" || true
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ -z "$1" ]; then
-    echo "Usage: $0 <app_prefix>"
+    echo "Usage: $0 <app_path>"
     exit 1
 fi
 
@@ -12,6 +12,7 @@ echo "Build ID: $BUILD_ID"
 FIRST2=${BUILD_ID:0:2}
 REST=${BUILD_ID:2}
 
-echo "Creating debug directory /root/.debug/.build-id/$FIRST2..."
-sudo mkdir -p /root/.debug/.build-id/$FIRST2
+mkdir -p ~/.debug/.build-id/$FIRST2
+echo "Copying debug symbols..."
+cp "$1.debug" ~/.debug/.build-id/$FIRST2/$REST.debug
 echo "Done."
