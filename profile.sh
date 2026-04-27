@@ -9,22 +9,22 @@ for arg in "$@"; do
 done
 
 if [ -z "$1" ] || [ "$1" = "--cpu-clock" ]; then
-    echo "Usage: $0 [--cpu-clock] <proc_name> <duration>"
+    echo "Usage: $0 [--cpu-clock] <pid> <duration>"
     exit 1
 fi
 
 if [ -z "$2" ] || [ "$2" = "--cpu-clock" ]; then
-    echo "Usage: $0 [--cpu-clock] <proc_name> <duration>"
+    echo "Usage: $0 [--cpu-clock] <pid> <duration>"
     exit 1
 fi
 
+PID=$1
 DURATION=$2
 
 FLAMEGRAPH_DIR=$(dirname "$0")/FlameGraph
 
-PID=$(pgrep -x $1)
-if [ -z "$PID" ]; then
-    echo "Error: process '$1' not found"
+if ! kill -0 "$PID" 2>/dev/null; then
+    echo "Error: process '$PID' not found"
     exit 1
 fi
 echo "Attaching to PID $PID"
