@@ -23,6 +23,10 @@ DURATION=$2
 FLAMEGRAPH_DIR=$(dirname "$0")/FlameGraph
 
 PID=$(pgrep -x $1)
+if [ -z "$PID" ]; then
+    echo "Error: process '$1' not found"
+    exit 1
+fi
 echo "Attaching to PID $PID"
 
 echo "Recording for $DURATION seconds..."
