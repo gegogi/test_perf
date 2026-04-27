@@ -1,6 +1,6 @@
 flamegraph.svg
-test
-test.stripped
+test.with_g
 test.debug
+test
 perf.*
 

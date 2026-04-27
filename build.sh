@@ -1,14 +1,14 @@
 #!/bin/bash -xv
 
-gcc -g -O2 -fno-inline test.c -o test
+gcc -g -O2 -fno-inline test.c -o test.with_g
 
-strip --only-keep-debug test -o test.debug
+strip --only-keep-debug test.with_g -o test.debug
 
-strip test -o test.stripped
+strip test.with_g -o test
 
-objcopy --add-gnu-debuglink=test.debug test.stripped
+objcopy --add-gnu-debuglink=test.debug test
 
-BUILD_ID=$(readelf -n test.stripped | grep "Build ID" | awk '{print $3}')
+BUILD_ID=$(readelf -n test | grep "Build ID" | awk '{print $3}')
 echo $BUILD_ID
 
 FIRST2=${BUILD_ID:0:2}
